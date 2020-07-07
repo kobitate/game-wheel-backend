@@ -12,7 +12,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "server": "pm2 start index.js --name \"game-wheel-backend\""
   },
   "author": "Kobi Tate",
   "license": "MIT"
