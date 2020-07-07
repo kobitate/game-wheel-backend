@@ -1,8 +1,16 @@
 require('dotenv').config()
 
 const app = require('express')()
-const http = require('http').createServer(app)
 const port = process.env.PORT
+const fs = require('fs')
+
+console.log({ type: typeof process.env.SSL_ENABLED })
+
+const http = require('http').createServer(
+  process.env.SSL_ENABLED === 'true' ? {
+    key: fs.readFileSync(process.env.SSL_PRIVATE_KEY_PATH),
+    cert: fs.readFileSync(process.env.SSL_CERT_PATH)
+  } : {}, app)
 const io = require('socket.io')(http)
 
 const SteamAPI = require('steamapi')
