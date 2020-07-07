@@ -27,9 +27,35 @@ app.get('/games/:id', (req, res) => {
 io.on('connection', socket => {
   console.log('client connected')
 
-  socket.on('SetGames', games => {
+  socket.on('SetGames', (games, callback) => {
     console.log(`Emitting 'SetGames' with ${games.length} total games`)
+    const returnData = {
+      success: games.length > 0,
+      games
+    }
+    callback && callback(returnData)
     io.emit('SetGames', games)
+  })
+
+  socket.on('SpinStart', (callback) => {
+    console.log('Starting spin...')
+    callback && callback()
+    io.emit('SpinStart')
+  })
+
+  socket.on('ResetWheel', (callback) => {
+    console.log('Resetting wheel')
+    callback && callback()
+    io.emit('ResetWheel')
+  })
+
+  socket.on('SpinEnd', (game, callback) => {
+    console.log(`Recieved winning game: '${game.label}'`)
+    const returnData = {
+      ...game
+    }
+    callback && callback(returnData)
+    io.emit('SpinEnd', game)
   })
 
   socket.on('disconnect', () => {
