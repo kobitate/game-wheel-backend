@@ -17,10 +17,7 @@ const SteamAPI = require('steamapi')
 const steam = new SteamAPI(process.env.STEAM_KEY)
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://kobi.dev')
-  if (process.env.DEVELOPMENT === 'true') {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  }
+  res.header('Access-Control-Allow-Origin', process.env.FRONTEND_URL)
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   res.header('Access-Control-Allow-Credentials', true)
   next()
